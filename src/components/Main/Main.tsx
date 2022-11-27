@@ -2,10 +2,11 @@ import { InputNumber, Select } from "antd";
 import { FC, useState } from "react";
 import "./Main.scss";
 
-type SelectValue = "USD" | "EUR" | "RUB";
+export type SelectValue = "USD" | "EUR" | "RUB";
 
 const Main: FC = () => {
-  const [inputValue, setInputValue] = useState(5000);
+  const [firstInputValue, setFirstInputValue] = useState<number | null>(5000);
+  const [secondInputValue, setSecondInputValue] = useState<number | null>(5000);
   const [firstSelectValue, setFirstSelectValue] = useState<SelectValue>("RUB");
   const [secondSelectValue, setSecondSelectValue] =
     useState<SelectValue>("USD");
@@ -40,30 +41,26 @@ const Main: FC = () => {
     </Select>
   );
 
-  const handleInputChange = (e: any) => {
-    setInputValue(e.target.value);
-  };
-
   return (
-    <main>
+    <main className="main">
       <h1>Конвертер валют</h1>
       <form className="main__form">
         <InputNumber
           controls={false}
-          value={inputValue}
+          value={firstInputValue}
           addonAfter={firstSelectAfter}
           min={1}
           size="large"
-          onChange={handleInputChange}
+          onChange={(value) => setFirstInputValue(value)}
         />
         <p>=</p>
         <InputNumber
           controls={false}
-          value={inputValue}
+          value={secondInputValue}
           addonAfter={secondSelectAfter}
           min={1}
           size="large"
-          onChange={handleInputChange}
+          onChange={(value) => setSecondInputValue(value)}
         />
       </form>
     </main>

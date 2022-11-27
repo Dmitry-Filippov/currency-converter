@@ -1,11 +1,38 @@
 import "./App.css";
 import { useState, useEffect, FC } from "react";
 import { Route, Routes } from "react-router-dom";
-import Main from "../Main/Main";
+import Main, { SelectValue } from "../Main/Main";
 import Navigation from "../Navigation/Navigation";
 import { ConfigProvider, theme } from "antd";
+import { getAllCourses } from "../../api/Api";
+import Courses from "../Courses/Courses";
+
+type CourseType = {
+  USD: number;
+  EUR: number;
+  RUB: number;
+};
+
+export type DefaultCoursesType = {
+  USD: CourseType;
+  EUR: CourseType;
+  RUB: CourseType;
+} | null;
 
 const App: FC = () => {
+  const [defaultCourses, setDefaultCourses] =
+    useState<DefaultCoursesType>(null);
+
+  useEffect(() => {
+    getAllCourses().then((res) => {
+      setDefaultCourses({
+        RUB: { USD: res[0].USD.RUB, EUR: res[0].EUR.RUB, RUB: 1 },
+        EUR: { USD: res[1].USD.EUR, RUB: res[1].RUB.EUR, EUR: 1 },
+        USD: { EUR: res[2].EUR.USD, RUB: res[2].RUB.USD, USD: 1 },
+      });
+    });
+  }, []);
+
   const useThemeDetector = () => {
     const getCurrentTheme = () =>
       window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -27,6 +54,8 @@ const App: FC = () => {
     ? theme.darkAlgorithm
     : theme.defaultAlgorithm;
 
+  const [selectValue, setSelectValue] = useState<SelectValue>("RUB");
+
   return (
     <ConfigProvider
       theme={{
@@ -34,12 +63,36 @@ const App: FC = () => {
       }}
     >
       <div className="app">
-        <header>
-          <Navigation />
-        </header>
         <Routes>
-          <Route path="/" element={<Main />}></Route>
-          <Route path="/courses"></Route>
+          <Route
+            path="/"
+            element={
+              <>
+                <header>
+                  <Navigation
+                    selectValue={selectValue}
+                    setSelectValue={setSelectValue}
+                  />
+                  <Main />
+                </header>
+              </>
+            }
+          ></Route>
+          <Route
+            path="/courses"
+            element={
+              <>
+                <header>
+                  <Navigation
+                    isCoursesPage
+                    selectValue={selectValue}
+                    setSelectValue={setSelectValue}
+                  />
+                </header>
+                <Courses defaultCourses={defaultCourses} selectValue={selectValue} />
+              </>
+            }
+          ></Route>
         </Routes>
       </div>
     </ConfigProvider>
