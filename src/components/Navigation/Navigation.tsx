@@ -1,7 +1,8 @@
+import { FC } from "react";
 import { Link } from "react-router-dom";
 import "./Navigation.scss";
 
-const Navigation = () => {
+const Navigation:FC = () => {
   return (
     <nav className="navigation">
       <ul className="navigation__links">
