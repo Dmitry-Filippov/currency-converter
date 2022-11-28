@@ -1,6 +1,6 @@
 import { InputNumber, Select } from "antd";
 import { FC, useEffect, useState } from "react";
-import { DefaultCoursesType } from "../App/App";
+import { DefaultCoursesType, LangType } from "../App/App";
 import "./Main.scss";
 
 export type SelectValue = "USD" | "EUR" | "RUB";
@@ -8,9 +8,10 @@ export type SelectValue = "USD" | "EUR" | "RUB";
 type MainProps = {
   defaultCourses: DefaultCoursesType;
   isDarkTheme: boolean;
+  lang: LangType;
 };
 
-const Main: FC<MainProps> = ({ defaultCourses, isDarkTheme }) => {
+const Main: FC<MainProps> = ({ defaultCourses, isDarkTheme, lang }) => {
   const [firstInputValue, setFirstInputValue] = useState<number | null>(5000);
   const [secondInputValue, setSecondInputValue] = useState<number | null>(0);
   const [firstSelectValue, setFirstSelectValue] = useState<SelectValue>("RUB");
@@ -98,7 +99,9 @@ const Main: FC<MainProps> = ({ defaultCourses, isDarkTheme }) => {
 
   return (
     <main className="main">
-      <h1>Конвертер валют</h1>
+      <h1>
+        {lang === "RU" ? "Конвертер валют" : "Currency Converter"}
+      </h1>
       <form className="main__form">
         <InputNumber
           controls={false}
@@ -113,7 +116,7 @@ const Main: FC<MainProps> = ({ defaultCourses, isDarkTheme }) => {
           onChange={(value) => setFirstInputValue(Number(value))}
         />
         <button
-          className={!isDarkTheme ? "btn-light": ""}
+          className={!isDarkTheme ? "btn-light" : ""}
           onClick={(e) => {
             e.preventDefault();
             setFirstSelectValue(secondSelectValue);

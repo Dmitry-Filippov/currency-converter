@@ -9,6 +9,8 @@ import Courses from "../Courses/Courses";
 import Preloader from "../Preloader/Preloader";
 import Footer from "../Footer/Footer";
 
+export type LangType = "RU" | "EN";
+
 type CourseType = {
   USD: number;
   EUR: number;
@@ -26,6 +28,8 @@ const App: FC = () => {
     useState<DefaultCoursesType>(null);
 
   const [isLoadingComplete, setLoadingComplete] = useState<boolean>(false);
+
+  const [lang, setLang] = useState<LangType>("RU");
 
   useEffect(() => {
     getAllCourses()
@@ -81,8 +85,14 @@ const App: FC = () => {
                       <Navigation
                         selectValue={selectValue}
                         setSelectValue={setSelectValue}
+                        lang={lang}
+                        setLang={setLang}
                       />
-                      <Main defaultCourses={defaultCourses} isDarkTheme={isDarkTheme} />
+                      <Main
+                        defaultCourses={defaultCourses}
+                        isDarkTheme={isDarkTheme}
+                        lang={lang}
+                      />
                     </header>
                   </>
                 }
@@ -96,11 +106,14 @@ const App: FC = () => {
                         isCoursesPage
                         selectValue={selectValue}
                         setSelectValue={setSelectValue}
+                        lang={lang}
+                        setLang={setLang}
                       />
                     </header>
                     <Courses
                       defaultCourses={defaultCourses}
                       selectValue={selectValue}
+                      lang={lang}
                     />
                   </>
                 }
