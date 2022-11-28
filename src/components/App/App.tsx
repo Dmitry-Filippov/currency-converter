@@ -79,7 +79,7 @@ const App: FC = () => {
           <>
             <Routes>
               <Route
-                path="/"
+                path="/currency-converter/"
                 element={
                   <>
                     <header>
