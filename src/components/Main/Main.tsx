@@ -7,9 +7,10 @@ export type SelectValue = "USD" | "EUR" | "RUB";
 
 type MainProps = {
   defaultCourses: DefaultCoursesType;
+  isDarkTheme: boolean;
 };
 
-const Main: FC<MainProps> = ({ defaultCourses }) => {
+const Main: FC<MainProps> = ({ defaultCourses, isDarkTheme }) => {
   const [firstInputValue, setFirstInputValue] = useState<number | null>(5000);
   const [secondInputValue, setSecondInputValue] = useState<number | null>(0);
   const [firstSelectValue, setFirstSelectValue] = useState<SelectValue>("RUB");
@@ -112,6 +113,7 @@ const Main: FC<MainProps> = ({ defaultCourses }) => {
           onChange={(value) => setFirstInputValue(Number(value))}
         />
         <button
+          className={!isDarkTheme ? "btn-light": ""}
           onClick={(e) => {
             e.preventDefault();
             setFirstSelectValue(secondSelectValue);

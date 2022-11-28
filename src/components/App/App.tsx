@@ -82,7 +82,7 @@ const App: FC = () => {
                         selectValue={selectValue}
                         setSelectValue={setSelectValue}
                       />
-                      <Main defaultCourses={defaultCourses} />
+                      <Main defaultCourses={defaultCourses} isDarkTheme={isDarkTheme} />
                     </header>
                   </>
                 }
