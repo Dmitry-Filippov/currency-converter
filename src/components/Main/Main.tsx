@@ -52,6 +52,46 @@ const Main: FC<MainProps> = ({ defaultCourses }) => {
     }
   }, [defaultCourses]);
 
+  useEffect(() => {
+    if (firstInputValue && defaultCourses) {
+      if (firstSelectValue === "RUB") {
+        if (secondSelectValue === "RUB") {
+          setSecondInputValue(firstInputValue);
+        }
+        if (secondSelectValue === "USD") {
+          setSecondInputValue(firstInputValue * defaultCourses.USD.RUB);
+        }
+        if (secondSelectValue === "EUR") {
+          setSecondInputValue(firstInputValue * defaultCourses.EUR.RUB);
+        }
+      }
+
+      if (firstSelectValue === "USD") {
+        if (secondSelectValue === "RUB") {
+          setSecondInputValue(firstInputValue * defaultCourses.RUB.USD);
+        }
+        if (secondSelectValue === "USD") {
+          setSecondInputValue(firstInputValue);
+        }
+        if (secondSelectValue === "EUR") {
+          setSecondInputValue(firstInputValue * defaultCourses.EUR.USD);
+        }
+      }
+
+      if (firstSelectValue === "EUR") {
+        if (secondSelectValue === "RUB") {
+          setSecondInputValue(firstInputValue * defaultCourses.RUB.EUR);
+        }
+        if (secondSelectValue === "USD") {
+          setSecondInputValue(firstInputValue * defaultCourses.USD.EUR);
+        }
+        if (secondSelectValue === "EUR") {
+          setSecondInputValue(firstInputValue);
+        }
+      }
+    }
+  }, [defaultCourses, firstInputValue, firstSelectValue, secondSelectValue]);
+
   return (
     <main className="main">
       <h1>Конвертер валют</h1>
@@ -64,7 +104,8 @@ const Main: FC<MainProps> = ({ defaultCourses }) => {
           size="large"
           onChange={(value) => setFirstInputValue(value)}
         />
-        <p>=</p>
+        {/* <p>=</p> */}
+        <button>=</button>
         <InputNumber
           controls={false}
           value={secondInputValue}
@@ -72,6 +113,7 @@ const Main: FC<MainProps> = ({ defaultCourses }) => {
           min={1}
           size="large"
           onChange={(value) => setSecondInputValue(value)}
+          disabled
         />
       </form>
     </main>

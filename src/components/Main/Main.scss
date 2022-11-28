@@ -1,14 +1,18 @@
 .main {
   padding-top: 40px;
-
 }
 
 .main__form {
   display: flex;
   align-items: center;
-  p {
+  button {
     font-size: 75px;
     font-weight: 300;
     padding: 0 20px;
+    background: none;
+    border: none;
+    color: inherit;
+    margin: 0;
+    cursor: pointer;
   }
 }
