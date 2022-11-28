@@ -6,6 +6,7 @@ import Navigation from "../Navigation/Navigation";
 import { ConfigProvider, theme } from "antd";
 import { getAllCourses } from "../../api/Api";
 import Courses from "../Courses/Courses";
+import Preloader from "../Preloader/Preloader";
 
 type CourseType = {
   USD: number;
@@ -23,14 +24,18 @@ const App: FC = () => {
   const [defaultCourses, setDefaultCourses] =
     useState<DefaultCoursesType>(null);
 
+  const [isLoadingComplete, setLoadingComplete] = useState<boolean>(false);
+
   useEffect(() => {
-    getAllCourses().then((res) => {
-      setDefaultCourses({
-        RUB: { USD: res[0].USD.RUB, EUR: res[0].EUR.RUB, RUB: 1 },
-        EUR: { USD: res[1].USD.EUR, RUB: res[1].RUB.EUR, EUR: 1 },
-        USD: { EUR: res[2].EUR.USD, RUB: res[2].RUB.USD, USD: 1 },
-      });
-    });
+    getAllCourses()
+      .then((res) => {
+        setDefaultCourses({
+          RUB: { USD: res[0].USD.RUB, EUR: res[0].EUR.RUB, RUB: 1 },
+          EUR: { USD: res[1].USD.EUR, RUB: res[1].RUB.EUR, EUR: 1 },
+          USD: { EUR: res[2].EUR.USD, RUB: res[2].RUB.USD, USD: 1 },
+        });
+      })
+      .then(() => setLoadingComplete(true));
   }, []);
 
   const useThemeDetector = () => {
@@ -63,37 +68,43 @@ const App: FC = () => {
       }}
     >
       <div className="app">
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <header>
-                  <Navigation
+        {!isLoadingComplete && <Preloader isDarkTheme={isDarkTheme} />}
+        {isLoadingComplete && (
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <header>
+                    <Navigation
+                      selectValue={selectValue}
+                      setSelectValue={setSelectValue}
+                    />
+                    <Main defaultCourses={defaultCourses} />
+                  </header>
+                </>
+              }
+            ></Route>
+            <Route
+              path="/courses"
+              element={
+                <>
+                  <header>
+                    <Navigation
+                      isCoursesPage
+                      selectValue={selectValue}
+                      setSelectValue={setSelectValue}
+                    />
+                  </header>
+                  <Courses
+                    defaultCourses={defaultCourses}
                     selectValue={selectValue}
-                    setSelectValue={setSelectValue}
                   />
-                  <Main />
-                </header>
-              </>
-            }
-          ></Route>
-          <Route
-            path="/courses"
-            element={
-              <>
-                <header>
-                  <Navigation
-                    isCoursesPage
-                    selectValue={selectValue}
-                    setSelectValue={setSelectValue}
-                  />
-                </header>
-                <Courses defaultCourses={defaultCourses} selectValue={selectValue} />
-              </>
-            }
-          ></Route>
-        </Routes>
+                </>
+              }
+            ></Route>
+          </Routes>
+        )}
       </div>
     </ConfigProvider>
   );

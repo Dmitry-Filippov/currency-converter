@@ -1,12 +1,17 @@
 import { InputNumber, Select } from "antd";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { DefaultCoursesType } from "../App/App";
 import "./Main.scss";
 
 export type SelectValue = "USD" | "EUR" | "RUB";
 
-const Main: FC = () => {
+type MainProps = {
+  defaultCourses: DefaultCoursesType;
+};
+
+const Main: FC<MainProps> = ({ defaultCourses }) => {
   const [firstInputValue, setFirstInputValue] = useState<number | null>(5000);
-  const [secondInputValue, setSecondInputValue] = useState<number | null>(5000);
+  const [secondInputValue, setSecondInputValue] = useState<number | null>(null);
   const [firstSelectValue, setFirstSelectValue] = useState<SelectValue>("RUB");
   const [secondSelectValue, setSecondSelectValue] =
     useState<SelectValue>("USD");
@@ -40,6 +45,12 @@ const Main: FC = () => {
       <Option value="RUB">₽</Option>
     </Select>
   );
+
+  useEffect(() => {
+    if (defaultCourses) {
+      setSecondInputValue(defaultCourses.USD.RUB * 5000);
+    }
+  }, [defaultCourses]);
 
   return (
     <main className="main">
