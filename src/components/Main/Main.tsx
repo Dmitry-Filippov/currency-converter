@@ -11,7 +11,7 @@ type MainProps = {
 
 const Main: FC<MainProps> = ({ defaultCourses }) => {
   const [firstInputValue, setFirstInputValue] = useState<number | null>(5000);
-  const [secondInputValue, setSecondInputValue] = useState<number | null>(null);
+  const [secondInputValue, setSecondInputValue] = useState<number | null>(0);
   const [firstSelectValue, setFirstSelectValue] = useState<SelectValue>("RUB");
   const [secondSelectValue, setSecondSelectValue] =
     useState<SelectValue>("USD");
@@ -92,17 +92,24 @@ const Main: FC<MainProps> = ({ defaultCourses }) => {
     }
   }, [defaultCourses, firstInputValue, firstSelectValue, secondSelectValue]);
 
+  const numsCount = (x: any) =>
+    x.toString().includes(".") ? x.toString().split(".").pop().length : 0;
+
   return (
     <main className="main">
       <h1>Конвертер валют</h1>
       <form className="main__form">
         <InputNumber
           controls={false}
-          value={firstInputValue}
+          value={
+            numsCount(firstInputValue) > 2
+              ? firstInputValue?.toFixed(2)
+              : firstInputValue
+          }
           addonAfter={firstSelectAfter}
           min={1}
           size="large"
-          onChange={(value) => setFirstInputValue(value)}
+          onChange={(value) => setFirstInputValue(Number(value))}
         />
         <button
           onClick={(e) => {
@@ -113,11 +120,15 @@ const Main: FC<MainProps> = ({ defaultCourses }) => {
         ></button>
         <InputNumber
           controls={false}
-          value={secondInputValue}
+          value={
+            numsCount(secondInputValue) > 2
+              ? secondInputValue?.toFixed(2)
+              : secondInputValue
+          }
           addonAfter={secondSelectAfter}
           min={1}
           size="large"
-          onChange={(value) => setSecondInputValue(value)}
+          onChange={(value) => setSecondInputValue(Number(value))}
           disabled
         />
       </form>
