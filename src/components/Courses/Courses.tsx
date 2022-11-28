@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { DefaultCoursesType } from "../App/App";
 import { SelectValue } from "../Main/Main";
+import "./Courses.scss";
 
 type CoursesProps = {
   defaultCourses: DefaultCoursesType;
@@ -9,9 +10,9 @@ type CoursesProps = {
 
 const Courses: FC<CoursesProps> = ({ defaultCourses, selectValue }) => {
   return (
-    <main>
+    <main className="courses">
       <h1>Актуальные курсы валют на сегодня:</h1>
-      <ul>
+      <ul className="courses__list">
         <li>
           {selectValue === "RUB" && <p>1USD = {defaultCourses?.RUB.USD}RUB </p>}
           {selectValue === "USD" && <p>1RUB = {defaultCourses?.USD.RUB}USD </p>}

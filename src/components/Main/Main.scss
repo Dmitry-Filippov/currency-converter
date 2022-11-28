@@ -3,16 +3,18 @@
 }
 
 .main__form {
+  padding-top: 30px;
   display: flex;
   align-items: center;
   button {
-    font-size: 75px;
-    font-weight: 300;
-    padding: 0 20px;
     background: none;
     border: none;
-    color: inherit;
-    margin: 0;
+    width: 100px;
+    height: 50px;
+    background-image: url("../../imgs/dark.png");
+    background-size: cover;
+    background-position: center;
     cursor: pointer;
+    margin: 0 30px;
   }
 }

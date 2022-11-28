@@ -104,8 +104,13 @@ const Main: FC<MainProps> = ({ defaultCourses }) => {
           size="large"
           onChange={(value) => setFirstInputValue(value)}
         />
-        {/* <p>=</p> */}
-        <button>=</button>
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            setFirstSelectValue(secondSelectValue);
+            setSecondSelectValue(firstSelectValue);
+          }}
+        ></button>
         <InputNumber
           controls={false}
           value={secondInputValue}
