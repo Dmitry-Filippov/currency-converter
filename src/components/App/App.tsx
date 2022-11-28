@@ -7,6 +7,7 @@ import { ConfigProvider, theme } from "antd";
 import { getAllCourses } from "../../api/Api";
 import Courses from "../Courses/Courses";
 import Preloader from "../Preloader/Preloader";
+import Footer from "../Footer/Footer";
 
 type CourseType = {
   USD: number;
@@ -70,40 +71,43 @@ const App: FC = () => {
       <div className="app">
         {!isLoadingComplete && <Preloader isDarkTheme={isDarkTheme} />}
         {isLoadingComplete && (
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <>
-                  <header>
-                    <Navigation
+          <>
+            <Routes>
+              <Route
+                path="/"
+                element={
+                  <>
+                    <header>
+                      <Navigation
+                        selectValue={selectValue}
+                        setSelectValue={setSelectValue}
+                      />
+                      <Main defaultCourses={defaultCourses} />
+                    </header>
+                  </>
+                }
+              ></Route>
+              <Route
+                path="/courses"
+                element={
+                  <>
+                    <header>
+                      <Navigation
+                        isCoursesPage
+                        selectValue={selectValue}
+                        setSelectValue={setSelectValue}
+                      />
+                    </header>
+                    <Courses
+                      defaultCourses={defaultCourses}
                       selectValue={selectValue}
-                      setSelectValue={setSelectValue}
                     />
-                    <Main defaultCourses={defaultCourses} />
-                  </header>
-                </>
-              }
-            ></Route>
-            <Route
-              path="/courses"
-              element={
-                <>
-                  <header>
-                    <Navigation
-                      isCoursesPage
-                      selectValue={selectValue}
-                      setSelectValue={setSelectValue}
-                    />
-                  </header>
-                  <Courses
-                    defaultCourses={defaultCourses}
-                    selectValue={selectValue}
-                  />
-                </>
-              }
-            ></Route>
-          </Routes>
+                  </>
+                }
+              ></Route>
+            </Routes>
+            <Footer />
+          </>
         )}
       </div>
     </ConfigProvider>
