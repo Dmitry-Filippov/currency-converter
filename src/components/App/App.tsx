@@ -8,6 +8,7 @@ import { getAllCourses } from "../../api/Api";
 import Courses from "../Courses/Courses";
 import Preloader from "../Preloader/Preloader";
 import Footer from "../Footer/Footer";
+import NotFound from "../NotFound/NotFound";
 
 export type LangType = "RU" | "EN";
 
@@ -88,12 +89,12 @@ const App: FC = () => {
                         lang={lang}
                         setLang={setLang}
                       />
-                      <Main
-                        defaultCourses={defaultCourses}
-                        isDarkTheme={isDarkTheme}
-                        lang={lang}
-                      />
                     </header>
+                    <Main
+                      defaultCourses={defaultCourses}
+                      isDarkTheme={isDarkTheme}
+                      lang={lang}
+                    />
                   </>
                 }
               ></Route>
@@ -118,6 +119,22 @@ const App: FC = () => {
                   </>
                 }
               ></Route>
+              <Route
+                path="*"
+                element={
+                  <>
+                    <header>
+                      <Navigation
+                        selectValue={selectValue}
+                        setSelectValue={setSelectValue}
+                        lang={lang}
+                        setLang={setLang}
+                      />
+                    </header>
+                    <NotFound lang={lang} />
+                  </>
+                }
+              />
             </Routes>
             <Footer />
           </>
