@@ -43,7 +43,7 @@ const Navigation: FC<NavigationProps> = ({
       </div>
       <ul className="navigation__links">
         <li>
-          <Link to="/">{lang === "RU" ? "Конвертер" : "Converter"}</Link>
+          <Link to="/currency-converter/">{lang === "RU" ? "Конвертер" : "Converter"}</Link>
         </li>
         <li>|</li>
         <li>
